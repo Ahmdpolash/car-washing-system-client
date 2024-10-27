@@ -25,5 +25,5 @@ export type TLoginUser = {
 };
 
 export interface UserModel extends Model<TUser> {
-  isUserExistsByCustomId(id: string): Promise<TUser>;
+  isUserAlreadyExists(email: string): Promise<TUser>;
 }

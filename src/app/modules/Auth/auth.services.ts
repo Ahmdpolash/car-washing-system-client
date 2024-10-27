@@ -1,11 +1,15 @@
+import httpStatus from "http-status";
+import AppError from "../../errors/AppError";
 import { TUser } from "./auth.interface";
 import { User } from "./auth.model";
 
 // create a new user
 const createUserIntoDb = async (payload: TUser) => {
   // check if user already exists
-  //   const isUserExists = await User.isUserExistsByCustomId(payload._id);
-
+  const isEmailExist = await User.isUserAlreadyExists(payload.email);
+  if (isEmailExist) {
+    throw new AppError(httpStatus.BAD_REQUEST, "email already registered");
+  }
   const result = await User.create(payload);
   return result;
 };

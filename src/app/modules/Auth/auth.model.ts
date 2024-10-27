@@ -37,7 +37,7 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     role: {
       type: String,
-      required: true,
+      required: false,
       enum: ["admin", "user"],
       default: "user",
     },
@@ -60,8 +60,8 @@ userSchema.post("save", async function (doc, next) {
   next();
 });
 
-userSchema.statics.isUserExistsByCustomId = async function (id: string) {
-  return await User.findById(id);
+userSchema.statics.isUserAlreadyExists = async function (email: string) {
+  return await User.findOne({ email });
 };
 
 export const User = model<TUser, UserModel>("User", userSchema);
